@@ -2,6 +2,7 @@ package com.javaweb.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,13 +25,13 @@ public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
 	
-    @GetMapping(value="/api/building/")
-    public List<BuildingDTO> getBuilding(@RequestParam(value="name", required = false) String name,
-    		                            @RequestParam(value="districtid", required = false) Long distric,
-    		                            @RequestParam(value="typeCpde", required = false) List<String> typeCode) {
-    	List<BuildingDTO> result = buildingService.findAll(name,distric);
-    	return result;
-    }
+//    @GetMapping(value="/api/building/")
+//    public List<BuildingDTO> getBuilding(@RequestParam(value="name", required = false) String name,
+//    		                            @RequestParam(value="districtid", required = false) Long distric,
+//    		                            @RequestParam(value="typeCpde", required = false) List<String> typeCode) {
+//    	List<BuildingDTO> result = buildingService.findAll(name,distric);
+//    	return result;
+//    }
     
     @PostMapping(value="/api/building/")
     public Object getBuilding2(@RequestBody BuildingDTO buildingDTO) {
@@ -43,5 +44,12 @@ public class BuildingAPI {
     	 if(buildingDTO.getName() == null || buildingDTO.getName().equals("") || buildingDTO.getNumberOfBasement() == null) {
     		 throw new FieldRequiredException("name or numberofbasement is null");
     	 }
+     }
+     
+     @GetMapping(value="/api/building/")
+     public List<BuildingDTO> getBuilding(@RequestParam Map<String, Object> params,
+     		                            @RequestParam(value="typeCode", required = false) List<String> typeCode) {
+     	List<BuildingDTO> result = buildingService.findAll(params,typeCode);
+     	return result;
      }
 }
